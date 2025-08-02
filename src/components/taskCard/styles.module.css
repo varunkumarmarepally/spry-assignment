@@ -1,0 +1,66 @@
+.taskCardContainer {
+    width: 100%;
+    height: 62px;
+    border: 1px solid gray;
+    border-radius: 10px;
+    margin-bottom: 8px;
+    padding: 6px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid var(--secondary-color);
+    background-color: var(--secondary-text-color);
+}
+
+.taskDetailsContainer {
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.taskName {
+    width: 100%;
+    height: 50%;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--primary-text-color);
+}
+
+.taskDesc {
+    width: 100%;
+    height: 50%;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.statusContainer {
+    width: fit-content;
+    padding: 5px 10px;
+    height: 30px;
+    border: 1px solid var(--secondary-color);
+    font-size: 12px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.taskToolsContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.taskCardButton {
+    width: fit-content;
+    padding: 5px 10px;
+    height: 30px;
+    border: 1px solid var(--secondary-color);
+    font-size: 12px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10px;
+    cursor: pointer;
+}

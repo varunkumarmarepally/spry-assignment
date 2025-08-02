@@ -1,0 +1,36 @@
+.themeContainer {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 7px;
+    border: 1px solid gray;
+    border-radius: 20px;
+    cursor: pointer;
+    background-color: var(--primary-text-color);
+    color: var(--primary-color);
+}
+
+.themeContainer:hover {
+    box-shadow: 0 0px 5px var(--primary-text-color);
+}
+
+.themeContainer:active {
+    transform: translateY(2px);
+}
+
+.themeImage {
+    width: 25px;
+    height: 25px;
+}
+
+.themeText {
+    font-size: 12px;
+    font-weight: 600;
+    padding-left: 7px;
+    width: 50px;
+}
+
+.line {
+    fill: var(--primary-color)
+}
