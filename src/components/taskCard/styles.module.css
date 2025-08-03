@@ -70,19 +70,19 @@
 .statusPending {
     composes: status;
     background-color: var(--task-color-pending);
-    color: var(--secondary-text-color);
+    color: var(--task-status-color);
 }
 
 .statusInProgress {
     composes: status;
     background-color: var(--task-color-progress);
-    color: var(--secondary-text-color);
+    color: var(--task-status-color);
 }
 
 .statusCompleted {
     composes: status;
     background-color: var(--task-color-done);
-    color: var(--secondary-text-color);
+    color: var(--task-status-color);
 }
 
 .taskToolsContainer {
