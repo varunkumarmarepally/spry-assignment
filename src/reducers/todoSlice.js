@@ -3,15 +3,12 @@ import dummyList from '../utils/dummyList'
 
 export const todoSlice = createSlice({
   name: 'todos',
-  initialState: [...dummyList],
+  initialState: [],
   reducers: {
-    increment: (state) => {
-      // Redux Toolkit allows us to write "mutating" logic in reducers. It
-      // doesn't actually mutate the state because it uses the Immer library,
-      // which detects changes to a "draft state" and produces a brand new
-      // immutable state based off those changes.
-      // Also, no return statement is required from these functions.
-      state.value += 1
+    setInitialTodos: (state, action) => {
+      console.log(action)
+      state.push(...action.payload);
+      return state;
     },
     addTodo: (state, action) => {
       state.push(action.payload);
@@ -27,7 +24,7 @@ export const todoSlice = createSlice({
         return eachTodo;
       })
     },
-    deleteTodo: (state, action) => {
+    removeTodo: (state, action) => {
       return state.filter((eachTodo) => {
         return eachTodo.id != action.payload.id
       })
@@ -36,6 +33,6 @@ export const todoSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { addTodo, updateTodo, deleteTodo } = todoSlice.actions
+export const { addTodo, updateTodo, removeTodo, setInitialTodos } = todoSlice.actions
 
 export default todoSlice.reducer

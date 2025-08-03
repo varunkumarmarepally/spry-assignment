@@ -10,7 +10,6 @@ const DialogComponent = () => {
     const uiState = useSelector((state) => state.ui);
 
     const getDialogHeading = () => {
-        console.log(uiState)
         switch (uiState.dialogComponent) {
             case 'ADD_TODO':
                 return 'Add Task Popup';

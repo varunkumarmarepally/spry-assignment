@@ -4,12 +4,31 @@ import Footer from '../footer'
 import Header from '../header'
 import ToolsComponent from '../toolsComponent'
 import DialogComponent from '../dialogComponent'
-import {useSelector} from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { useState, useEffect } from 'react'
+import { getAllTodos } from '../../utils/indexDBUtil'
+import { setInitialTodos } from '../../reducers/todoSlice';
 
 const BaseComponent = () => {
 
+    const [postDBDataFlag, setPostDBDataFlag] = useState(false);
+
+    const dispatch = useDispatch();
     const uiState = useSelector((state) => state.ui);
-    console.log(uiState);
+
+    const getDBData = (data) => {
+        dispatch(setInitialTodos(data));
+        console.log(data);
+        
+    }
+
+    useEffect(() => {
+        console.log("I am here")
+        if(!postDBDataFlag) {
+            getAllTodos(getDBData)
+        }
+        setPostDBDataFlag(true);
+    }, [postDBDataFlag])
 
     return (
         <>

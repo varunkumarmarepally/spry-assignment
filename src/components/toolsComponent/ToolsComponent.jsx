@@ -2,24 +2,31 @@ import styles from './styles.module.css'
 import appConfig from '../../utils/appConfig'
 import { NavLink } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux'
-import { openDialog } from '../../reducers/uiSlice';
+import { openDialog, updateUiState } from '../../reducers/uiSlice';
+import { useMemo } from 'react';
 
 
 const ToolsComponent = () => {
 
     const dispatch = useDispatch();
     const currentTaskFilter = useSelector((state) => state.ui.currentTaskFilter);
-    const currentStatusFilter = useSelector((state) => state.ui.currentStatusFilter);
+    const currentSortFilter = useSelector((state) => state.ui.currentSortFilter);
     const todos = useSelector((state) => state.todos);
 
     const getTodoCount = (status) => {
-        console.log("inside", status, todos);
         if(status == 'ALL_TASKS') {
             return todos.length;
         }
         return todos.reduce((count, eachTodo) => {
             return eachTodo.status == status ? count + 1 : count
         }, 0);
+    }
+
+    const taskCounts = {
+        ALL_TASKS: useMemo(() => getTodoCount('ALL_TASKS'), [todos]),
+        PENDING: useMemo(() => getTodoCount('PENDING'), [todos]),
+        IN_PROGRESS: useMemo(() => getTodoCount('IN_PROGRESS'), [todos]),
+        COMPLETED: useMemo(() => getTodoCount('COMPLETED'), [todos])
     }
 
     const getAllTaskFilters = () => {
@@ -32,7 +39,10 @@ const ToolsComponent = () => {
                     to={`/tasks/${eachFilter.statusId.toLowerCase()}`} end
                 >
                     {eachFilter.name}
-                    <span>{getTodoCount(eachFilter.statusId)}</span>
+                    <span className={currentTaskFilter == eachFilter.statusId ? styles.todoCountActive : styles.todoCount}>
+                        {/* {getTodoCount(eachFilter.statusId)} */}
+                        {taskCounts[eachFilter.statusId]}
+                    </span>
                 </NavLink>
             );
         });
@@ -42,7 +52,10 @@ const ToolsComponent = () => {
     const getAllSortFilters = () => {
         const sortFilters = appConfig.filterTypes.map((eachFilter) => {
             return (
-                <div key={eachFilter.filterId} className={styles.sortFilter}>
+                <div key={eachFilter.filterId}
+                    className={currentSortFilter == eachFilter.filterId ? styles.sortFilterActive : styles.sortFilter}
+                    onClick={() => {onClickSortFilter(eachFilter.filterId)}}
+                >
                     {eachFilter.name}
                 </div>
             );
@@ -52,6 +65,18 @@ const ToolsComponent = () => {
 
     const onClickAddTask = () => {
         dispatch(openDialog({dialogComponent: 'ADD_TODO'}))
+    }
+
+    const onClickSortFilter = (filterId) => {
+        if(currentSortFilter == filterId) {
+            dispatch(updateUiState({
+                currentSortFilter: ''
+            }))
+        } else {
+            dispatch(updateUiState({
+                currentSortFilter: filterId
+            }))
+        }
     }
 
     return (
@@ -67,6 +92,7 @@ const ToolsComponent = () => {
                 </div>
             </div>
             <div className={styles.sortFilterContainer}>
+                <span>Sort by:</span>
                 {getAllSortFilters()}
             </div>
         </div>

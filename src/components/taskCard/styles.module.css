@@ -13,7 +13,7 @@
 }
 
 .taskDetailsContainer {
-    width: 50%;
+    width: 40%;
     height: 100%;
     overflow: hidden;
 }
@@ -24,6 +24,7 @@
     font-size: 14px;
     font-weight: 600;
     color: var(--primary-text-color);
+    white-space: nowrap;
 }
 
 .taskDesc {
@@ -31,18 +32,56 @@
     height: 50%;
     font-size: 12px;
     font-weight: 400;
+    white-space: nowrap;
+}
+
+.taskDueDate {
+    width: 150px;
+    padding: 5px 10px;
+    font-size: 14px;
+    font-weight: 600;
+    
+    span {
+        font-style: italic;
+        font-size: 12px;
+        font-weight: 400;
+    }
 }
 
 .statusContainer {
+    width: 130px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.status {
     width: fit-content;
     padding: 5px 10px;
     height: 30px;
-    border: 1px solid var(--secondary-color);
     font-size: 12px;
     border-radius: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.statusPending {
+    composes: status;
+    background-color: var(--task-color-pending);
+    color: var(--secondary-text-color);
+}
+
+.statusInProgress {
+    composes: status;
+    background-color: var(--task-color-progress);
+    color: var(--secondary-text-color);
+}
+
+.statusCompleted {
+    composes: status;
+    background-color: var(--task-color-done);
+    color: var(--secondary-text-color);
 }
 
 .taskToolsContainer {

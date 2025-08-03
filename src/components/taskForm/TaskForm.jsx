@@ -1,9 +1,10 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import styles from './styles.module.css'
 
 import { useDispatch, useSelector } from 'react-redux';
 import { addTodo, updateTodo } from '../../reducers/todoSlice';
 import { closeDialog } from '../../reducers/uiSlice';
+import { postTodo, putTodo } from '../../utils/indexDBUtil';
 
 const defaultTask = {
     name: '',
@@ -12,12 +13,26 @@ const defaultTask = {
     dueDate: ''
 }
 
+const buttonText = {
+    'ADD_TODO': 'ADD TASK',
+    'EDIT_TODO': 'UPDATE TASK'
+}
+
 const TaskForm = () => {
 
     const uiState = useSelector((state) => state.ui);
     const dispatch = useDispatch();
 
     const [task, setTask] = useState({...defaultTask, ...uiState.currentEditTask});
+    const [disableSave, setDisableSave] = useState(true);
+
+    useEffect(() => {
+        if(task.name.trim() !== '' && task.dueDate != '') {
+            setDisableSave(false);
+        } else {
+            setDisableSave(true);
+        }
+    }, [task])
 
     const onUpdateOfForm = (payload) => {
         setTask((prev) => {
@@ -28,20 +43,20 @@ const TaskForm = () => {
         });
     }
 
-    const onClickAddTask = () => {
-        console.log(task);
-        dispatch(addTodo({
-            ...task,
-            id: Date.now()
-        }));
-        dispatch(closeDialog());
-    }
-
-    const onClickUpdateTask = () => {
-        console.log(task);
-        dispatch(updateTodo({
-            ...task
-        }));
+    const onClickSubmitTask = () => {
+        if(uiState.dialogComponent == 'ADD_TODO') {
+            const updatedTask = {
+                ...task,
+                id: Date.now()
+            };
+            postTodo(updatedTask)
+            dispatch(addTodo(updatedTask));
+        } else if (uiState.dialogComponent == 'EDIT_TODO') {
+            putTodo(task);
+            dispatch(updateTodo({
+                ...task
+            }));
+        }
         dispatch(closeDialog());
     }
 
@@ -59,6 +74,11 @@ const TaskForm = () => {
                 placeholder='Enter Task Name'
                 onChange={(e) => { onUpdateOfForm({name: e.target.value})}}
             />
+            {
+                task.name.trim() == ''
+                ? <span className={styles.formError}>Fill Task name to add a task</span>
+                : null
+            }
 
             {/* Task Description */}
             <label className={styles.formLabel}>Task Description</label>
@@ -92,18 +112,16 @@ const TaskForm = () => {
                 type="date"
                 onChange={(e) => { onUpdateOfForm({dueDate: e.target.value})}}
             />
+            {
+                task.dueDate.trim() == ''
+                ? <span className={styles.formError}>Provide due date to add a task</span>
+                : null
+            }
+
             <div className={styles.buttonContainer}>
-                {/* <button className={styles.formButton}>CLEAR</button> */}
-                {
-                    uiState.dialogComponent == 'ADD_TODO'
-                    ? <button className={styles.formButton} onClick={onClickAddTask} >ADD TASK</button>
-                    : null
-                }
-                {
-                    uiState.dialogComponent == 'EDIT_TODO'
-                    ? <button className={styles.formButton} onClick={onClickUpdateTask} >UPDATE TASK</button>
-                    : null
-                }
+                <button disabled={disableSave} className={disableSave ? styles.formButtonDisabled : styles.formButton} onClick={onClickSubmitTask} >
+                    {buttonText[uiState.dialogComponent]}
+                </button>
             </div>
         </>
     );
