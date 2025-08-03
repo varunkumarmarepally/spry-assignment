@@ -28,34 +28,27 @@ function App() {
     }
   }, [])
 
-  // const getAllAppRoutes = () => {
-  //   const taskRoutes = appConfig.statusTypes.map((eachType) => {
-  //     const path = eachType.statusId.toLowerCase();
-  //     return (
-  //       <Route path={path} element={<TaskListComponent filter={eachType.statusId} />}  />
-  //     )
-  //   });
-  //   return (
-  //     <Route path='tasks' element={<BaseComponent />} >
-  //       <Route path='' element={<Navigate replace to={'/tasks/all_tasks'} />} />
-  //       {taskRoutes}
-  //     </Route>
-  //   );
-  // };
+  const getAllAppRoutes = () => {
+    const taskRoutes = appConfig.statusTypes.map((eachType) => {
+      const path = eachType.statusId.toLowerCase();
+      return (
+        <Route path={path} element={<TaskListComponent filter={eachType.statusId} />}  />
+      )
+    });
+    return (
+      <Route path='tasks' element={<BaseComponent />} >
+        <Route path='' element={<Navigate replace to={'/tasks/all_tasks'} />} />
+        {taskRoutes}
+      </Route>
+    );
+  };
 
   return (
     <Provider store={store}>
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<Navigate replace to={'/tasks/all_tasks'} />} />
-          {/* {getAllAppRoutes()} */}
-          <Route path='tasks' element={<BaseComponent />} >
-            <Route path='' element={<Navigate replace to={'/tasks/all_tasks'} />} />
-            <Route path='all_tasks' element={<TaskListComponent filter={'ALL_TASKS'} />} />
-            <Route path='pending' element={<TaskListComponent filter={'PENDING'} />} />
-            <Route path='in_progress' element={<TaskListComponent filter={'IN_PROGRESS'} />} />
-            <Route path='completed' element={<TaskListComponent filter={'COMPLETED'} />} />
-          </Route>
+            {getAllAppRoutes()}
           <Route path='*' element={<Navigate replace to={'/tasks/all_tasks'} />} />
         </Routes>
       </BrowserRouter>
