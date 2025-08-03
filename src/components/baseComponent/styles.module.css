@@ -1,0 +1,6 @@
+.contentContainer {
+    width: 100%;
+    height: calc(100% - 80px);
+    background-color: var(--primary-color);
+    color: var(--primary-text-color);
+}

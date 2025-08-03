@@ -1,0 +1,59 @@
+.dialogModal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--dialog-background-color);
+}
+
+.dialogContainer {
+    width: 500px;
+    min-height: 500px;
+    height: 60vh;
+    background-color: var(--secondary-text-color);
+    border-radius: 10px;
+    color: var(--primary-text-color);
+}
+
+.dialogHeader {
+    width: 100%;
+    height: 50px;
+    padding: 5px 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--primary-text-color);
+}
+
+.heading {
+    width: 85%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dialogClose {
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.close {
+    fill: var(--secondary-color);
+}
+
+.dialogContent {
+    width: 100%;
+    height: calc(100% - 50px);
+    padding: 10px 20px;
+    overflow-y: auto;
+}
