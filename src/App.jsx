@@ -48,7 +48,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<Navigate replace to={'/tasks/all_tasks'} />} />
-          {getAllAppRoutes()}
+            {getAllAppRoutes()}
           <Route path='*' element={<Navigate replace to={'/tasks/all_tasks'} />} />
         </Routes>
       </BrowserRouter>
