@@ -4,6 +4,7 @@ import { NavLink } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux'
 import { openDialog, updateUiState } from '../../reducers/uiSlice';
 import { useMemo } from 'react';
+import Add from '../svgComponents/add';
 
 
 const ToolsComponent = () => {
@@ -87,7 +88,7 @@ const ToolsComponent = () => {
                 </div>
                 <div className={styles.taskContainer}>
                     <div className={styles.task} onClick={onClickAddTask}>
-                        Add Task
+                        <Add size={22} /><span>Add Task</span>
                     </div>
                 </div>
             </div>

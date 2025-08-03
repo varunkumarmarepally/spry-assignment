@@ -4,6 +4,8 @@ import { useDispatch } from 'react-redux';
 import { removeTodo } from '../../reducers/todoSlice';
 import { openDialog } from '../../reducers/uiSlice';
 import { deleteTodo } from '../../utils/indexDBUtil';
+import Edit from '../svgComponents/edit';
+import Delete from '../svgComponents/delete';
 
 const statusText = {
     PENDING: 'Pending',
@@ -57,11 +59,15 @@ const TaskCard = ({task}) => {
             </div>
             <div className={styles.taskDueDate}><span>Due by </span>{task.dueDate}</div>
             <div className={styles.statusContainer}>
-                <span className={getStatusClass(task.status)}>{statusText[task.status]}</span>
+                <span className={getStatusClass(task.status)}><label>{statusText[task.status]}</label></span>
             </div>
             <div className={styles.taskToolsContainer}>
-                <div className={styles.taskCardButton} onClick={onCickEditTask}>EDIT</div>
-                <div className={styles.taskCardButton} onClick={onClickDeleteTask}>DELETE</div>
+                <div className={styles.taskCardButton} onClick={onCickEditTask}>
+                    <Edit size={20} /><span>EDIT</span>
+                </div>
+                <div className={styles.taskCardButton} onClick={onClickDeleteTask}>
+                    <Delete size={20} /><span>DELETE</span>
+                </div>
             </div>
         </div>
     );

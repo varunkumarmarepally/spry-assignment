@@ -36,7 +36,7 @@
 }
 
 .taskDueDate {
-    width: 150px;
+    width: 170px;
     padding: 5px 10px;
     font-size: 14px;
     font-weight: 600;
@@ -60,6 +60,7 @@
     padding: 5px 10px;
     height: 30px;
     font-size: 12px;
+    font-weight: 600;
     border-radius: 15px;
     display: flex;
     align-items: center;
@@ -94,7 +95,8 @@
     width: fit-content;
     padding: 5px 10px;
     height: 30px;
-    border: 1px solid var(--secondary-color);
+    border: 2px solid var(--secondary-color);
+    color: var(--secondary-color);
     font-size: 12px;
     border-radius: 5px;
     display: flex;
@@ -102,4 +104,44 @@
     justify-content: center;
     margin-left: 10px;
     cursor: pointer;
+    font-weight: 600;
+
+    span {
+        padding-left: 5px;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .taskCardButton {
+        span {
+            display: none;
+        }
+    }
+
+    .statusContainer {
+        width: 30px;
+        label {
+            display: none;
+        }
+    }
+
+    .status {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+    }
+
+    .taskDueDate {
+        span {
+            display: block;
+        }
+    }
+}
+
+.taskCardButton:hover {
+    transform: scale(1.05);
+}
+
+.taskCardButton:active {
+    transform: scale(0.95);
 }
