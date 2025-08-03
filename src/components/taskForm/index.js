@@ -1,3 +1,3 @@
-import TaskForm from "./taskForm";
+import TaskForm from './TaskForm'
 
-export default TaskForm;
+export default TaskForm
