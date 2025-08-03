@@ -1,6 +1,6 @@
 import styles from './styles.module.css'
 import appConfig from '../../utils/appConfig'
-import { NavLink } from 'react-router';
+import { NavLink, useNavigate } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux'
 import { openDialog, updateUiState } from '../../reducers/uiSlice';
 import { useMemo } from 'react';
@@ -10,6 +10,7 @@ import Add from '../svgComponents/add';
 const ToolsComponent = () => {
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const currentTaskFilter = useSelector((state) => state.ui.currentTaskFilter);
     const currentSortFilter = useSelector((state) => state.ui.currentSortFilter);
     const todos = useSelector((state) => state.todos);
@@ -30,9 +31,14 @@ const ToolsComponent = () => {
         COMPLETED: useMemo(() => getTodoCount('COMPLETED'), [todos])
     }
 
+    const onUpdateOfStatus = (event) => {
+        let value = event.target.value;
+        dispatch(updateUiState({currentTaskFilter: value}));
+        navigate(`/tasks/${value.toLowerCase()}`);
+    }
+
     const getAllTaskFilters = () => {
         const taskFilters = appConfig.statusTypes.map((eachFilter) => {
-
             return (
                 <NavLink
                     key={eachFilter.statusId}
@@ -48,6 +54,37 @@ const ToolsComponent = () => {
             );
         });
         return taskFilters;
+    }
+
+    const getAllTaskFiltersAsSelect = () => {
+        const taskFilters = appConfig.statusTypes.map((eachFilter) => {
+            return (
+                <option
+                    key={eachFilter.statusId}
+                    value={eachFilter.statusId}
+                    // className={styles.taskFilter}
+                    // to={`/tasks/${eachFilter.statusId.toLowerCase()}`} end
+                >
+                    {eachFilter.name}
+                    {/* <span className={currentTaskFilter == eachFilter.statusId ? styles.todoCountActive : styles.todoCount}> */}
+                        {/* {getTodoCount(eachFilter.statusId)} */}
+                    {/* </span> */}
+                    &nbsp;({taskCounts[eachFilter.statusId]})
+                </option>
+            );
+        });
+        return (
+            <select
+                value={currentTaskFilter}
+                className={styles.selectTaskStatus}
+                onChange={onUpdateOfStatus}
+            >
+                {/* <option value="PENDING">Pending</option>
+                <option value="IN_PROGRESS">In Progress</option>
+                <option value="COMPLETED">Completed</option> */}
+                {taskFilters}
+            </select>
+        );
     }
 
     const getAllSortFilters = () => {
@@ -85,6 +122,7 @@ const ToolsComponent = () => {
             <div className={styles.taskToolContainer}>
                 <div className={styles.taskFilterContainer}>
                     {getAllTaskFilters()}
+                    {getAllTaskFiltersAsSelect()}
                 </div>
                 <div className={styles.taskContainer}>
                     <div className={styles.task} onClick={onClickAddTask}>
