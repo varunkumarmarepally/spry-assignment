@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, current } from '@reduxjs/toolkit'
 
 export const uiSlice = createSlice({
   name: 'ui',
@@ -7,7 +7,8 @@ export const uiSlice = createSlice({
     dialogComponent: '',
     currentEditTask: {},
     currentTaskFilter: 'ALL_TASKS',
-    currentSortFilter: ''
+    currentSortFilter: '',
+    currentSearchFilter: ''
   },
   reducers: {
     openDialog: (state, action) => {

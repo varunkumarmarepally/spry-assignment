@@ -8,6 +8,8 @@ const TaskListComponent = ({filter}) => {
     const dispatch = useDispatch();
     const storeTodos = useSelector((state) => state.todos);
     const currentSortFilter = useSelector((state) => state.ui.currentSortFilter);
+    const currentSearchFilter = useSelector((state) => state.ui.currentSearchFilter);
+    console.log(currentSearchFilter)
 
     useEffect(() => {
         dispatch(updateUiState({currentTaskFilter: filter}))
@@ -29,6 +31,21 @@ const TaskListComponent = ({filter}) => {
         }
     }
 
+    const searchTodosBasedOnSearchText = (todos) => {
+        if(currentSearchFilter == '') {
+            return todos;
+        }
+        const sTodos = todos.filter((eachTodo) => {
+            // console.log(eachTodo.name, eachTodo.name.indexOf(currentSearchFilter))
+            return eachTodo.name.indexOf(currentSearchFilter) > -1;
+        });
+        sTodos.sort((a,b) => {
+            return a.name.indexOf(currentSearchFilter) - b.name.indexOf(currentSearchFilter);
+        })
+        // console.log(sTodos);
+        return sTodos;
+    }
+
     const getAllTasksList = (todos) => {
         if(filter != 'ALL_TASKS') {
             todos = todos.filter((eachTodo) => {
@@ -36,13 +53,15 @@ const TaskListComponent = ({filter}) => {
             })
         }
         sortTodosBasedOnFilter(todos);
+        todos = searchTodosBasedOnSearchText(todos);
+        // console.log(todos)
         const todoDivs = todos.map((eachTodo) => {
             return <TaskCard key={eachTodo.id} task={eachTodo} />;
         });
         return todoDivs;
     }
 
-    const taskList = useMemo(() => getAllTasksList([...storeTodos]), [storeTodos, currentSortFilter, filter])
+    const taskList = useMemo(() => getAllTasksList([...storeTodos]), [storeTodos, currentSortFilter, filter, currentSearchFilter])
 
     return <div className={styles.taskListContainer}>
         {taskList.length > 0 ? taskList : 'No tasks avalable for selected criteria'}

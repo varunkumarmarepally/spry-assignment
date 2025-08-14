@@ -3,7 +3,7 @@ import appConfig from '../../utils/appConfig'
 import { NavLink, useNavigate } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux'
 import { openDialog, updateUiState } from '../../reducers/uiSlice';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import Add from '../svgComponents/add';
 
 
@@ -14,6 +14,8 @@ const ToolsComponent = () => {
     const currentTaskFilter = useSelector((state) => state.ui.currentTaskFilter);
     const currentSortFilter = useSelector((state) => state.ui.currentSortFilter);
     const todos = useSelector((state) => state.todos);
+
+    const [searchText, setSearchText] = useState('')
 
     const getTodoCount = (status) => {
         if(status == 'ALL_TASKS') {
@@ -117,12 +119,20 @@ const ToolsComponent = () => {
         }
     }
 
+    const onChangeOfSearchText = (e) => {
+        setSearchText(e.target.value);
+        dispatch(updateUiState({
+            currentSearchFilter: e.target.value
+        }));
+    }
+
     return (
         <div className={styles.toolsContainer}>
             <div className={styles.taskToolContainer}>
                 <div className={styles.taskFilterContainer}>
                     {getAllTaskFilters()}
                     {getAllTaskFiltersAsSelect()}
+                    <input type="text" placeholder='Search Text' value={searchText} onChange={onChangeOfSearchText} />
                 </div>
                 <div className={styles.taskContainer}>
                     <div className={styles.task} onClick={onClickAddTask}>
